@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://otrli3gkb8d8"]
+
+[ext_resource type="Script" path="res://scripts/player/PlayerMove.cs" id="1_tiarf"]
+[ext_resource type="Texture2D" uid="uid://cqgqoe7q5qdn4" path="res://icon.svg" id="2_1qf3x"]
+[ext_resource type="Script" path="res://scripts/player/Moving.cs" id="3_rt5vs"]
+[ext_resource type="Script" path="res://Levels/Camera.cs" id="4_wre7x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_klwen"]
+radius = 0.489732
+height = 1.00828
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a650x"]
+
+[node name="Game" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+script = ExtResource("1_tiarf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_klwen")
+
+[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D"]
+billboard = 1
+texture = ExtResource("2_1qf3x")
+
+[node name="States" type="Node" parent="CharacterBody3D"]
+
+[node name="Moving" type="Node" parent="CharacterBody3D/States"]
+script = ExtResource("3_rt5vs")
+Speed = 50
+Acceleration = 10.0
+Friction = 5.0
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(20.9732, 0, 0, 0, 1, 0, 0, 0, 15.6156, 0, -1.65537, 0)
+calculate_tangents = false
+use_collision = true
+mesh = SubResource("PlaneMesh_a650x")
+
+[node name="Camera" type="Node3D" parent="."]
+script = ExtResource("4_wre7x")
+LerpSpeed = 5.0
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Camera"]
+transform = Transform3D(1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0)
+collision_mask = 0
+spring_length = 11.765
+
+[node name="Camera3D" type="Camera3D" parent="Camera/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.62197, 6.497)
