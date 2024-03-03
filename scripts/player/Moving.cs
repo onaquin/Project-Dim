@@ -12,7 +12,8 @@ public partial class Moving : Node
         player = GetParent().GetParent() as PlayerMove;
     }
     public override void _Process(double delta)
-    {
+    {   if(Global.currentState != Global.GameState.OVERWORLD)
+            return;
         player.Velocity = GetMovement(delta);
         applyFriction();
         player.MoveAndSlide();
@@ -30,4 +31,5 @@ public partial class Moving : Node
             player.Velocity.MoveToward(Vector3.Zero, Friction);
         }
     }
+
 }

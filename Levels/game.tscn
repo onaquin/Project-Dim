@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://otrli3gkb8d8"]
+[gd_scene load_steps=15 format=3 uid="uid://otrli3gkb8d8"]
 
 [ext_resource type="Script" path="res://scripts/player/PlayerMove.cs" id="1_tiarf"]
 [ext_resource type="Texture2D" uid="uid://cqgqoe7q5qdn4" path="res://icon.svg" id="2_1qf3x"]
 [ext_resource type="Script" path="res://scripts/player/Moving.cs" id="3_rt5vs"]
-[ext_resource type="Script" path="res://Levels/Camera.cs" id="4_wre7x"]
+[ext_resource type="Script" path="res://scripts/Overworld/Level.cs" id="4_3eevu"]
+[ext_resource type="Script" path="res://scripts/Overworld/CameraController.cs" id="4_wre7x"]
+[ext_resource type="Script" path="res://scripts/Overworld/StartBattle.cs" id="6_lym3g"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_klwen"]
 radius = 0.489732
@@ -11,35 +13,56 @@ height = 1.00828
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_a650x"]
 
+[sub_resource type="Environment" id="Environment_0vm8n"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_kflmx"]
+exposure_multiplier = 0.7
+dof_blur_far_enabled = true
+dof_blur_far_distance = 18.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ohnx0"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0pvnm"]
+viewport_path = NodePath("EnemyTest/Sprite3D2/SubViewport")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvfsi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83qul"]
+bg_color = Color(0.239216, 0.545098, 0, 1)
+
 [node name="Game" type="Node3D"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="."]
 script = ExtResource("1_tiarf")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_klwen")
-
-[node name="Sprite3D" type="Sprite3D" parent="CharacterBody3D"]
+[node name="Sprite3D" type="Sprite3D" parent="Player"]
 billboard = 1
+shaded = true
+double_sided = false
 texture = ExtResource("2_1qf3x")
 
-[node name="States" type="Node" parent="CharacterBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_klwen")
 
-[node name="Moving" type="Node" parent="CharacterBody3D/States"]
+[node name="States" type="Node" parent="Player"]
+
+[node name="Moving" type="Node" parent="Player/States"]
 script = ExtResource("3_rt5vs")
-Speed = 50
-Acceleration = 10.0
-Friction = 5.0
+Acceleration = 35.0
+Friction = 35.0
+
+[node name="Level" type="Node" parent="Player"]
+script = ExtResource("4_3eevu")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(20.9732, 0, 0, 0, 1, 0, 0, 0, 15.6156, 0, -1.65537, 0)
+transform = Transform3D(29.6125, 0, 0, 0, 1, 0, 0, 0, 31.1574, 0, -1.65537, 0)
 calculate_tangents = false
 use_collision = true
 mesh = SubResource("PlaneMesh_a650x")
 
 [node name="Camera" type="Node3D" parent="."]
 script = ExtResource("4_wre7x")
-LerpSpeed = 5.0
+LerpSpeed = 7.0
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Camera"]
 transform = Transform3D(1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0)
@@ -48,3 +71,45 @@ spring_length = 11.765
 
 [node name="Camera3D" type="Camera3D" parent="Camera/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.62197, 6.497)
+environment = SubResource("Environment_0vm8n")
+attributes = SubResource("CameraAttributesPractical_kflmx")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.00455818, 0.999941, -0.00986962, -0.663326, 0.00436232, 0.748318, 0.748317, 0.00995774, 0.663267, 0, 0, 0)
+
+[node name="EnemyTest" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -18.0966)
+
+[node name="Sprite3D" type="Sprite3D" parent="EnemyTest"]
+transform = Transform3D(1, -1.86265e-09, -2.98023e-08, 0, 1, 1.39698e-09, 0, 0, 1, 0, 0, 0)
+modulate = Color(1, 0.117647, 0.14902, 1)
+billboard = 1
+shaded = true
+texture = ExtResource("2_1qf3x")
+
+[node name="Area3D" type="Area3D" parent="EnemyTest"]
+script = ExtResource("6_lym3g")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyTest/Area3D"]
+shape = SubResource("BoxShape3D_ohnx0")
+
+[node name="Sprite3D2" type="Sprite3D" parent="EnemyTest"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.761437, 0.747503)
+visible = false
+billboard = 1
+texture = SubResource("ViewportTexture_0pvnm")
+
+[node name="SubViewport" type="SubViewport" parent="EnemyTest/Sprite3D2"]
+size = Vector2i(184, 26)
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyTest/Sprite3D2/SubViewport"]
+custom_minimum_size = Vector2(182.655, 25.215)
+offset_right = 4.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_lvfsi")
+theme_override_styles/fill = SubResource("StyleBoxFlat_83qul")
+value = 100.0
+
+[node name="HealthComponent" type="Node" parent="EnemyTest"]
+
+[connection signal="body_entered" from="EnemyTest/Area3D" to="EnemyTest/Area3D" method="_on_body_entered"]
