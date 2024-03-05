@@ -12,7 +12,7 @@ public partial class Moving : Node
         player = GetParent().GetParent() as PlayerMove;
     }
     public override void _Process(double delta)
-    {   if(Global.currentState != Global.GameState.OVERWORLD)
+    {   if(Global.currentState != Global.GameState.OVERWORLD && Global.currentState != Global.GameState.LEVEL)
             return;
         player.Velocity = GetMovement(delta);
         applyFriction();

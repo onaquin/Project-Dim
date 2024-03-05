@@ -4,7 +4,7 @@ using System;
 
 public partial class CameraController : Node3D
 {
-	SpringArm3D camera;
+	public SpringArm3D arm;
 	Node3D Target;
 	
 	[Export] public float LerpSpeed = 0.5f;
@@ -13,7 +13,7 @@ public partial class CameraController : Node3D
 	public override void _Ready()
 	{
 		Target = Global.Target;
-		camera = GetChild(0) as SpringArm3D;
+		arm = GetChild(0) as SpringArm3D;
 		Global.Camera = this;
 	}
 
@@ -24,10 +24,10 @@ public partial class CameraController : Node3D
 	}
 	public void updateRotation(float newRotation)
     {
-		if(camera.Rotation != new Vector3(Mathf.DegToRad(newRotation), 0f, 0f)){
+		if(arm.Rotation != new Vector3(Mathf.DegToRad(newRotation), 0f, 0f)){
 		 Tween tween = CreateTween();
 		
-        tween.TweenProperty(camera, "rotation",new Vector3(Mathf.DegToRad(newRotation), 0f, 0f) , 0.5f);
+        tween.TweenProperty(arm, "rotation",new Vector3(Mathf.DegToRad(newRotation), 0f, 0f) , 0.5f);
 		tween.Play();
 		}
 

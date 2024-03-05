@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://phjl05nxjc4a"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jhf67"]
+
+[node name="TestOverworld" type="Node3D"]
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+transform = Transform3D(76.1903, 0, 0, 0, 4.35829, 0, 0, 0, 67.543, 0, -1.60819, 0)
+mesh = SubResource("PlaneMesh_jhf67")
