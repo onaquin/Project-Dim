@@ -1,26 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://ceyjtdd7tagl1"]
+[gd_scene load_steps=6 format=3 uid="uid://ceyjtdd7tagl1"]
 
-[ext_resource type="Script" path="res://scripts/Overworld/LoadLevel.cs" id="1_kbhcq"]
-[ext_resource type="Texture2D" uid="uid://cqgqoe7q5qdn4" path="res://icon.svg" id="2_0ndvd"]
-[ext_resource type="Script" path="res://scripts/Overworld/StartBattle.cs" id="3_xapci"]
+[ext_resource type="Script" path="res://src/Overworld/LoadLevel.cs" id="1_kbhcq"]
+[ext_resource type="Texture2D" uid="uid://y2ibq634sk6o" path="res://assets/sprites/slime.png" id="2_t57es"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5c7n5"]
 size = Vector3(4.5304, 3.09717, 6.94348)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_a650x"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ohnx0"]
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_0pvnm"]
-viewport_path = NodePath("TestLevel1/EnemyTest/Sprite3D2/SubViewport")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lvfsi"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83qul"]
-bg_color = Color(0.239216, 0.545098, 0, 1)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_76f7j"]
-size = Vector2(26, 26)
+[sub_resource type="ViewportTexture" id="ViewportTexture_420kt"]
+viewport_path = NodePath("EnemyTest/Sprite3D2/SubViewport")
 
 [node name="TestLevel1" type="Node3D"]
 
@@ -50,44 +39,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.421591, -18.0966)
 
 [node name="Sprite3D" type="Sprite3D" parent="EnemyTest"]
 transform = Transform3D(1, -1.86265e-09, -2.98023e-08, 0, 1, 1.39698e-09, 0, 0, 1, 0, -1.11729, 0)
-modulate = Color(1, 0.117647, 0.14902, 1)
+pixel_size = 0.005
 billboard = 1
 shaded = true
-texture = ExtResource("2_0ndvd")
-
-[node name="Area3D" type="Area3D" parent="EnemyTest"]
-script = ExtResource("3_xapci")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyTest/Area3D"]
-shape = SubResource("BoxShape3D_ohnx0")
+texture = ExtResource("2_t57es")
 
 [node name="Sprite3D2" type="Sprite3D" parent="EnemyTest"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.761437, 0.747503)
-visible = false
+layers = 0
 billboard = 1
-texture = SubResource("ViewportTexture_0pvnm")
+texture = SubResource("ViewportTexture_420kt")
 
 [node name="SubViewport" type="SubViewport" parent="EnemyTest/Sprite3D2"]
 size = Vector2i(184, 26)
 
-[node name="ProgressBar" type="ProgressBar" parent="EnemyTest/Sprite3D2/SubViewport"]
-custom_minimum_size = Vector2(182.655, 25.215)
+[node name="CanvasLayer" type="CanvasLayer" parent="EnemyTest/Sprite3D2/SubViewport"]
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyTest/Sprite3D2/SubViewport/CanvasLayer"]
 offset_right = 4.0
 offset_bottom = 27.0
-theme_override_styles/background = SubResource("StyleBoxFlat_lvfsi")
-theme_override_styles/fill = SubResource("StyleBoxFlat_83qul")
-value = 100.0
 
 [node name="HealthComponent" type="Node" parent="EnemyTest"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="EnemyTest"]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyTest/CharacterBody2D"]
-shape = SubResource("RectangleShape2D_76f7j")
-
-[node name="Sprite2D" type="Sprite2D" parent="EnemyTest/CharacterBody2D/CollisionShape2D"]
-texture = ExtResource("2_0ndvd")
-
 [connection signal="body_entered" from="Area3D" to="Area3D" method="_on_body_entered"]
-[connection signal="body_entered" from="EnemyTest/Area3D" to="EnemyTest/Area3D" method="_on_body_entered"]

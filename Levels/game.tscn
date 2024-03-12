@@ -1,19 +1,25 @@
-[gd_scene load_steps=19 format=3 uid="uid://otrli3gkb8d8"]
+[gd_scene load_steps=24 format=3 uid="uid://otrli3gkb8d8"]
 
 [ext_resource type="PackedScene" uid="uid://ceyjtdd7tagl1" path="res://Levels/test_level_1.tscn" id="1_5bh1c"]
-[ext_resource type="Script" path="res://scripts/player/PlayerMove.cs" id="1_tiarf"]
-[ext_resource type="Texture2D" uid="uid://cqgqoe7q5qdn4" path="res://icon.svg" id="2_1qf3x"]
-[ext_resource type="Script" path="res://scripts/player/Moving.cs" id="3_rt5vs"]
-[ext_resource type="Script" path="res://scripts/Overworld/Level.cs" id="4_3eevu"]
-[ext_resource type="Script" path="res://scripts/Overworld/CameraController.cs" id="4_wre7x"]
-[ext_resource type="Script" path="res://scripts/Battle/Capture.cs" id="7_k3gw6"]
-[ext_resource type="Script" path="res://scripts/Battle/Camera2D.cs" id="8_rkbiy"]
+[ext_resource type="Script" path="res://src/player/Player.cs" id="2_8p1t6"]
+[ext_resource type="Script" path="res://src/player/Moving.cs" id="3_rt5vs"]
+[ext_resource type="Texture2D" uid="uid://d4jebpkbl708c" path="res://assets/sprites/maingu.png" id="3_xe4ru"]
+[ext_resource type="Script" path="res://src/Overworld/Level.cs" id="4_3eevu"]
+[ext_resource type="Script" path="res://src/Overworld/CameraController.cs" id="4_wre7x"]
+[ext_resource type="Script" path="res://src/player/Attacking.cs" id="5_7r11i"]
+[ext_resource type="Script" path="res://src/Battle/Capture.cs" id="7_k3gw6"]
+[ext_resource type="Script" path="res://src/player/Health.cs" id="8_kb414"]
+[ext_resource type="Script" path="res://src/Battle/Camera2D.cs" id="8_rkbiy"]
+[ext_resource type="Texture2D" uid="uid://bnmeqbjblty18" path="res://assets/sprites/DropShadow.png" id="9_gebsh"]
 [ext_resource type="PackedScene" uid="uid://phjl05nxjc4a" path="res://Levels/test_overworld.tscn" id="9_no4h1"]
-[ext_resource type="Script" path="res://scripts/GDS/discord.gd" id="10_6qr3q"]
+[ext_resource type="PackedScene" uid="uid://dkq4wjbeqb5hr" path="res://assets/UI/HealthBar.tscn" id="10_0j0me"]
+[ext_resource type="Script" path="res://src/GDS/discord.gd" id="10_6qr3q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_klwen"]
 radius = 0.489732
 height = 1.00828
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cm13g"]
 
 [sub_resource type="Environment" id="Environment_0vm8n"]
 
@@ -73,13 +79,23 @@ _data = {
 [node name="Persistant" type="Node3D" parent="."]
 
 [node name="Player" type="CharacterBody3D" parent="Persistant"]
-script = ExtResource("1_tiarf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.856)
+script = ExtResource("2_8p1t6")
+
+[node name="HealthBar" parent="Persistant/Player" instance=ExtResource("10_0j0me")]
 
 [node name="Sprite3D" type="Sprite3D" parent="Persistant/Player"]
-billboard = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.564383, 0)
+pixel_size = 0.005
+billboard = 2
 shaded = true
 double_sided = false
-texture = ExtResource("2_1qf3x")
+texture = ExtResource("3_xe4ru")
+
+[node name="Decal" type="Decal" parent="Persistant/Player/Sprite3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.87273, 0)
+size = Vector3(1, 5, 1)
+texture_albedo = ExtResource("9_gebsh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Persistant/Player"]
 shape = SubResource("CapsuleShape3D_klwen")
@@ -89,19 +105,40 @@ shape = SubResource("CapsuleShape3D_klwen")
 [node name="Moving" type="Node" parent="Persistant/Player/States"]
 script = ExtResource("3_rt5vs")
 Acceleration = 35.0
-Friction = 35.0
+Friction = 10.0
+JumpHeight = 5.0
+timeToFall = 0.4
+VariableJumpHeight = 40.0
+
+[node name="Attacking" type="Node" parent="Persistant/Player/States"]
+script = ExtResource("5_7r11i")
 
 [node name="Level" type="Node" parent="Persistant/Player"]
 script = ExtResource("4_3eevu")
+
+[node name="Health" type="Node" parent="Persistant/Player"]
+script = ExtResource("8_kb414")
+maxHealth = 80
+
+[node name="Pivot" type="Node3D" parent="Persistant/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156065, 0.317982, 0)
+
+[node name="Area3D" type="Area3D" parent="Persistant/Player/Pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.303796, 0, 0, 0, 0.984677, 0.898469, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Persistant/Player/Pivot/Area3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Persistant/Player/Pivot/Area3D"]
+shape = SubResource("BoxShape3D_cm13g")
 
 [node name="Camera" type="Node3D" parent="Persistant"]
 script = ExtResource("4_wre7x")
 LerpSpeed = 7.0
 
 [node name="SpringArm3D" type="SpringArm3D" parent="Persistant/Camera"]
-transform = Transform3D(1, 0, 0, 0, 0.573576, 0.819152, 0, -0.819152, 0.573576, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 collision_mask = 0
-spring_length = 11.765
+spring_length = 12.255
 
 [node name="Camera3D" type="Camera3D" parent="Persistant/Camera/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.62197, 6.497)

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkq4wjbeqb5hr"]
+
+[ext_resource type="Script" path="res://assets/UI/HealthBar.cs" id="1_u5iqc"]
+[ext_resource type="Texture2D" uid="uid://cp1v8tvk15njj" path="res://assets/placeholder/terribleHearts.png" id="2_j2kwe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kgvj"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iov4q"]
+bg_color = Color(0, 0.678431, 0.737255, 1)
+
+[node name="HealthBar" type="CanvasLayer"]
+script = ExtResource("1_u5iqc")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar2" type="ProgressBar" parent="Control"]
+layout_mode = 1
+offset_left = 31.0
+offset_top = 77.0
+offset_right = 313.0
+offset_bottom = 104.0
+scale = Vector2(0.805786, 1.02062)
+theme_override_styles/background = SubResource("StyleBoxFlat_5kgvj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_iov4q")
+value = 100.0
+show_percentage = false
+
+[node name="Hearts" type="Sprite2D" parent="."]
+position = Vector2(41, 19)
+scale = Vector2(12, 12)
+texture = ExtResource("2_j2kwe")
+hframes = 2
+vframes = 3
