@@ -118,10 +118,9 @@ script = ExtResource("4_3eevu")
 
 [node name="Health" type="Node" parent="Persistant/Player"]
 script = ExtResource("8_kb414")
-maxHealth = 80
+maxHealth = 24
 
 [node name="Pivot" type="Node3D" parent="Persistant/Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156065, 0.317982, 0)
 
 [node name="Area3D" type="Area3D" parent="Persistant/Player/Pivot"]
 transform = Transform3D(1, 0, 0, 0, 0.303796, 0, 0, 0, 0.984677, 0.898469, 0, 0)
@@ -185,3 +184,5 @@ visible = false
 
 [node name="DiscordManager" type="Node" parent="."]
 script = ExtResource("10_6qr3q")
+
+[connection signal="body_entered" from="Persistant/Player/Pivot/Area3D" to="Persistant/Player/States/Attacking" method="_on_area_3d_body_entered"]
