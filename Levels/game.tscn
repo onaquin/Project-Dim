@@ -112,6 +112,7 @@ VariableJumpHeight = 40.0
 
 [node name="Attacking" type="Node" parent="Persistant/Player/States"]
 script = ExtResource("5_7r11i")
+step = 5.0
 
 [node name="Level" type="Node" parent="Persistant/Player"]
 script = ExtResource("4_3eevu")
@@ -129,6 +130,9 @@ transform = Transform3D(1, 0, 0, 0, 0.303796, 0, 0, 0, 0.984677, 0.898469, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Persistant/Player/Pivot/Area3D"]
 shape = SubResource("BoxShape3D_cm13g")
+
+[node name="RayCast3D" type="RayCast3D" parent="Persistant/Player/Pivot"]
+target_position = Vector3(5, 0, 0)
 
 [node name="Camera" type="Node3D" parent="Persistant"]
 script = ExtResource("4_wre7x")
