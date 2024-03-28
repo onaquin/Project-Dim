@@ -9,8 +9,9 @@ public partial class Health : Node
 
     public override void _Ready()
     {
-        player = GetParent() as Player;
-        player.Health = this;
+       // player = GetParent() as Player;
+     //   player.Health = this;
+        
     }
     public void Damage(int damage)
     {
@@ -21,10 +22,13 @@ public partial class Health : Node
         }
     }
 
-    private void Kill()
+    public void Kill()
     {
-        Global.currentState = Global.GameState.LOADING;
-        throw new NotImplementedException();
+        if(player != null)
+            Global.currentState = Global.GameState.LOADING;
+        else{
+            GetParent().QueueFree();
+        }
     }
 
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceyjtdd7tagl1"]
+[gd_scene load_steps=11 format=3 uid="uid://ceyjtdd7tagl1"]
 
 [ext_resource type="Script" path="res://src/Overworld/LoadLevel.cs" id="1_kbhcq"]
 [ext_resource type="Texture2D" uid="uid://y2ibq634sk6o" path="res://assets/sprites/slime.png" id="2_t57es"]
-[ext_resource type="Script" path="res://Levels/EnemyHealth.cs" id="3_b0glp"]
+[ext_resource type="Script" path="res://src/Battle/Enemy.cs" id="2_y8ef4"]
+[ext_resource type="Script" path="res://src/Battle/EnemyHealth.cs" id="4_0b4js"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5c7n5"]
 size = Vector3(4.5304, 3.09717, 6.94348)
@@ -46,6 +47,9 @@ mesh = SubResource("PlaneMesh_a650x")
 
 [node name="EnemyTest" type="CharacterBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.27792, -18.0966)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("2_y8ef4")
 
 [node name="Sprite3D" type="Sprite3D" parent="EnemyTest"]
 transform = Transform3D(1, -1.86265e-09, -2.98023e-08, 0, 1, 1.39698e-09, 0, 0, 1, 0, 0, 0)
@@ -55,7 +59,8 @@ shaded = true
 texture = ExtResource("2_t57es")
 
 [node name="HealthComponent" type="Node" parent="EnemyTest"]
-script = ExtResource("3_b0glp")
+script = ExtResource("4_0b4js")
+maxHealth = 25
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyTest"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.271682, 0, 0, 0)
@@ -70,6 +75,84 @@ texture = SubResource("ViewportTexture_boc76")
 size = Vector2i(126, 28)
 
 [node name="ProgressBar" type="ProgressBar" parent="EnemyTest/Sprite3D2/SubViewport"]
+custom_minimum_size = Vector2(126, 0)
+offset_right = 126.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_limkj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_eoqto")
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="EnemyTest2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.82727, -1.27792, -18.0966)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("2_y8ef4")
+
+[node name="Sprite3D" type="Sprite3D" parent="EnemyTest2"]
+transform = Transform3D(1, -1.86265e-09, -2.98023e-08, 0, 1, 1.39698e-09, 0, 0, 1, 0, 0, 0)
+pixel_size = 0.005
+billboard = 2
+shaded = true
+texture = ExtResource("2_t57es")
+
+[node name="HealthComponent" type="Node" parent="EnemyTest2"]
+script = ExtResource("4_0b4js")
+maxHealth = 25
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyTest2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.271682, 0, 0, 0)
+shape = SubResource("BoxShape3D_dqrrh")
+
+[node name="Sprite3D2" type="Sprite3D" parent="EnemyTest2"]
+transform = Transform3D(0.556615, 0, 0, 0, 0.490886, 0, 0, 0, 1, 0, 0.516335, 0)
+billboard = 2
+texture = SubResource("ViewportTexture_boc76")
+
+[node name="SubViewport" type="SubViewport" parent="EnemyTest2/Sprite3D2"]
+size = Vector2i(126, 28)
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyTest2/Sprite3D2/SubViewport"]
+custom_minimum_size = Vector2(126, 0)
+offset_right = 126.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_limkj")
+theme_override_styles/fill = SubResource("StyleBoxFlat_eoqto")
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="EnemyTest3" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.82308, -1.27792, -21.6746)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("2_y8ef4")
+
+[node name="Sprite3D" type="Sprite3D" parent="EnemyTest3"]
+transform = Transform3D(1, -1.86265e-09, -2.98023e-08, 0, 1, 1.39698e-09, 0, 0, 1, 0, 0, 0)
+pixel_size = 0.005
+billboard = 2
+shaded = true
+texture = ExtResource("2_t57es")
+
+[node name="HealthComponent" type="Node" parent="EnemyTest3"]
+script = ExtResource("4_0b4js")
+maxHealth = 25
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EnemyTest3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.271682, 0, 0, 0)
+shape = SubResource("BoxShape3D_dqrrh")
+
+[node name="Sprite3D2" type="Sprite3D" parent="EnemyTest3"]
+transform = Transform3D(0.556615, 0, 0, 0, 0.490886, 0, 0, 0, 1, 0, 0.516335, 0)
+billboard = 2
+texture = SubResource("ViewportTexture_boc76")
+
+[node name="SubViewport" type="SubViewport" parent="EnemyTest3/Sprite3D2"]
+size = Vector2i(126, 28)
+
+[node name="ProgressBar" type="ProgressBar" parent="EnemyTest3/Sprite3D2/SubViewport"]
 custom_minimum_size = Vector2(126, 0)
 offset_right = 126.0
 offset_bottom = 27.0

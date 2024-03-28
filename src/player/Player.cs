@@ -12,6 +12,8 @@ public partial class Player : CharacterBody3D
     Attacking attackState;
 
     public Vector2 viewDirection;
+    Inventory inventory;
+    RayCast3D hitRay;
 
     public override void _Ready()
     {
@@ -19,6 +21,8 @@ public partial class Player : CharacterBody3D
         Global.Player = this;
         Pivot = GetNode("Pivot") as Node3D;
         attackState = GetNode("States").GetNode("Attacking") as Attacking;
+        inventory = GetNode("Inventory") as Inventory;
+        hitRay = Pivot.GetNode("RayCast3D") as RayCast3D;
         attackState.parent = this;
     }
     public override void _Input(InputEvent @event)
@@ -33,6 +37,11 @@ public partial class Player : CharacterBody3D
         }
         GD.Print(viewDirection);
         InputVector = input.Normalized();
+        if(Input.IsActionJustPressed("Capture"))
+        {
+            
+            inventory.Capture(hitRay.GetCollider() as Enemy);
+        }
         
     }
 

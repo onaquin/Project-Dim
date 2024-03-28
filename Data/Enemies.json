@@ -1,0 +1,16 @@
+{
+    "Slime":
+    {
+        "Health" : 25,
+        "FieldSkill": "null",
+        "BattleSkill":"null",
+        "SpritePath": "res://assets/sprites/slime.png",
+        "Description": "an ordinary and uneventful slime, used for debug only",
+        "Hostility": "Hostile",
+        "Drops":
+        {
+
+        }
+    }
+
+}
